@@ -37,8 +37,10 @@ console.log(cleanURL(url));
 ---
 
 <DIV align="center">
+  
 ![BadgeCustom](https://img.shields.io/badge/URL--Cleaner-OpenSource%20%E2%9C%85-blue?style=for-the-badge)
+<br>
 ![BadgeClean](https://img.shields.io/badge/Tracking%20Removed-%F0%9F%94%97%20Clean%20Links-0B8FEA?style=for-the-badge)
 
 <h5>Partage propre. Vie privée respectée. Navigue léger 🧹 / Share clean. Keep privacy. Browse lighter 🧹</h5>
-</DIV>
+</DIV>  
