@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URL Cleaner – Remove Trackers</title>
+
+<!-- TailwindCSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Font Awesome CDN (icônes) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center py-10">
+
+    <h1 class="text-3xl font-bold mb-6">🔗 URL Cleaner</h1>
+    <p class="text-gray-300 mb-8">Supprime automatiquement les paramètres de tracking dans vos liens (UTM, FBCLID, GCLID, etc.)</p>
+
+    <div class="w-full max-w-xl bg-gray-800 p-6 rounded-xl shadow-xl">
+        <label class="text-lg mb-2 block font-semibold">Collez votre URL :</label>
+        <textarea id="inputUrl"
+                  class="w-full h-28 p-3 rounded bg-gray-700 text-white outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="https://exemple.com/article?utm_source=google&utm_medium=cpc&fbclid=12345">
+        </textarea>
+
+        <button onclick="cleanUrl()"
+                class="mt-4 w-full bg-blue-600 hover:bg-blue-700 transition p-3 rounded-lg text-lg font-semibold">
+            Nettoyer l'URL <i class="fa-solid fa-broom"></i>
+        </button>
+
+        <div id="resultBox" class="hidden mt-6">
+            <label class="text-lg mb-2 block font-semibold">URL Nettoyée :</label>
+            <textarea id="outputUrl"
+                      class="w-full h-24 p-3 rounded bg-gray-700 text-white outline-none focus:ring-2 focus:ring-green-500"></textarea>
+
+            <button onclick="copyResult()"
+                    class="mt-3 w-full bg-green-600 hover:bg-green-700 transition p-3 rounded-lg font-semibold">
+                Copier <i class="fa-solid fa-copy"></i>
+            </button>
+        </div>
+    </div>
+
+<script>
+function cleanUrl() {
+    let url = document.getElementById("inputUrl").value.trim();
+    if (!url) return;
+
+    try {
+        const parsed = new URL(url);
+
+        // paramètres trackers courants
+        const trackers = [
+            'utm_source','utm_medium','utm_campaign','utm_term','utm_content',
+            'fbclid','gclid','yclid','mc_eid','mc_cid','pk_campaign',
+            'pk_kwd','ref','igshid'
+        ];
+
+        trackers.forEach(t => parsed.searchParams.delete(t));
+
+        const clean = parsed.origin + parsed.pathname + (parsed.search ? parsed.search : "");
+
+        document.getElementById("outputUrl").value = clean;
+        document.getElementById("resultBox").classList.remove("hidden");
+
+    } catch (e) {
+        alert("L'URL semble invalide.");
+    }
+}
+
+function copyResult() {
+    let out = document.getElementById("outputUrl");
+    out.select();
+    out.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(out.value);
+}
+</script>
+
+</body>
+</html>
